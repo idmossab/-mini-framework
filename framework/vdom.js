@@ -25,17 +25,15 @@ class VNode {
         }
         return new VNode(tag, attrs, children);
     }
-
-    createElement() {
-        if (typeof this === 'string') {
-            return document.createTextNode(this);
-        }
+    render() {
         const el = document.createElement(this.tag);
-
         for (const [key, value] of Object.entries(this.attrs)) {
-            el.setAttribute(key, value);
+            if (key.startsWith('on') && typeof value === 'function') {
+                el.addEventListener(key.slice(2).toLowerCase(), value);
+            } else {
+                el.setAttribute(key, value);
+            }
         }
-
         this.children.forEach(child => {
             if (typeof child === 'string') {
                 el.appendChild(document.createTextNode(child));
@@ -44,10 +42,6 @@ class VNode {
             }
         });
         return el;
-    }
-
-    render() {
-
     }
 }
 
