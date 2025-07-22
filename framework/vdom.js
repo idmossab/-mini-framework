@@ -25,4 +25,29 @@ class VNode {
         }
         return new VNode(tag, attrs, children);
     }
+
+    createElement() {
+        if (typeof this === 'string') {
+            return document.createTextNode(this);
+        }
+        const el = document.createElement(this.tag);
+
+        for (const [key, value] of Object.entries(this.attrs)) {
+            el.setAttribute(key, value);
+        }
+
+        this.children.forEach(child => {
+            if (typeof child === 'string') {
+                el.appendChild(document.createTextNode(child));
+            } else {
+                el.appendChild(child.render());
+            }
+        });
+        return el;
+    }
+
+    render() {
+
+    }
 }
+
