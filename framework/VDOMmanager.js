@@ -1,8 +1,31 @@
 class VDOMManager {
   constructor(body) {
-    this.body = body;
-    this.oldVNode = null;
+    this.body = body;          
+    this.oldVNode = null;     
+    this.state = {};           
   }
+
+  render() {
+    return new VNode('div', {}, [
+      `Current state: ${JSON.stringify(this.state)}`,
+      new VNode('button', { 
+        onClick: () => this.setState({ clicked: (this.state.clicked || 0) + 1 }) 
+      }, ['Click me'])
+    ]);
+  }
+
+  setState(newState) {
+    this.state = { ...this.state, ...newState }; 
+    const newVNode = this.render();              
+    updateElement(this.body, newVNode, this.oldVNode); 
+    this.oldVNode = newVNode;                     
+  }
+
+  mount() {
+    this.oldVNode = this.render();     
+    this.body.appendChild(this.oldVNode.render()); 
+  }
+
   store(newVNode) {
     updateElement(this.body, newVNode, this.oldVNode);
     this.oldVNode = newVNode;
@@ -12,12 +35,19 @@ class VDOMManager {
 function updateElement(parent, newVNode, oldVNode, index = 0) {
   const existingEl = parent.childNodes[index];
 
+  function createDOMNode(vnode) {
+    if (typeof vnode === 'string') {
+      return document.createTextNode(vnode);
+    }
+    return vnode.render();
+  }
+
   if (!oldVNode) {
-    parent.appendChild(newVNode.render());
+    parent.appendChild(createDOMNode(newVNode));
   } else if (!newVNode) {
     parent.removeChild(existingEl);
   } else if (changed(newVNode, oldVNode)) {
-    parent.replaceChild(newVNode.render(), existingEl);
+    parent.replaceChild(createDOMNode(newVNode), existingEl);
   } else if (newVNode.tag) {
     const newLen = newVNode.children.length;
     const oldLen = oldVNode.children.length;
