@@ -1,4 +1,4 @@
-Define a virtual DOM node structure
+Define a virtual DOM node structure // done
 (Use plain JavaScript objects to represent HTML elements)
 
 Create createElement(vNode) function
