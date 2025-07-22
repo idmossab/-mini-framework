@@ -1,10 +1,10 @@
-Define a virtual DOM node structure // done
+Define a virtual DOM node structure 
 (Use plain JavaScript objects to represent HTML elements)
 
-Create createElement(vNode) function
+Create createElement(vNode) function 
 (Convert virtual DOM nodes into real DOM elements)
 
-Build a render() function
+Build a render() function 
 (Return the full virtual DOM tree based on current state)
 
 Store the previous virtual DOM
