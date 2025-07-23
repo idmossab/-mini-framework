@@ -16,7 +16,7 @@ class Router {
 
   setState(newState) {
     this.state = { ...this.state, ...newState };
-    this.handleRouteChange(); // re-render on state change
+    this.handleRouteChange(); 
   }
 
   handleRouteChange() {
@@ -30,22 +30,3 @@ class Router {
   }
 }
 
-// Usage example
-const router = new Router({
-  "/": (state, setState) => {
-    document.getElementById("root").innerHTML = `
-      <h1>Home Page</h1>
-      <p>Counter: ${state.counter || 0}</p>
-      <button id="inc">Increment</button>
-    `;
-    document.getElementById("inc").onclick = () => {
-      setState({ counter: (state.counter || 0) + 1 });
-    };
-  },
-  "/about": (state) => {
-    document.getElementById("root").innerHTML = `<h1>About Page</h1><p>Counter is ${state.counter || 0}</p>`;
-  },
-  "/404": () => {
-    document.getElementById("root").innerHTML = "<h1>404 Page</h1>";
-  },
-}, { counter: 0 });
