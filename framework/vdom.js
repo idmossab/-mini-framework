@@ -4,7 +4,7 @@ class VNode {
         this.attrs = attrs;
         this.children = children;
     }
-
+    // from DOM to VDOM ---> node to object
     static fromDOM(node) {
         const tag = node.tagName.toLowerCase();
         const attrs = {};
@@ -25,6 +25,7 @@ class VNode {
         }
         return new VNode(tag, attrs, children);
     }
+    /// from state tp Vdom ,, from VDOm to rDom
     render() {
         const el = document.createElement(this.tag);
         for (const [key, value] of Object.entries(this.attrs)) {
