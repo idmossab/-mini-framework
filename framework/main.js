@@ -1,24 +1,15 @@
-window.onload = () => {
-  const appContainer = document.getElementById('app');
-  const vdomManager = new VDOMManager(appContainer);
+function renderApp(state, setState) {
+  return new VNode('div', {}, [
+    new VNode('h1', {}, [`Clicked: ${state.count}`]),
+    new VNode('button', {
+      onClick: () => {
+        console.log("Clicked");  
+        state.count = state.count + 1        
+        setState({ count: state.count } )
+      }
+    }, ['clickini a77 '])
+  ]);
+}
 
-  vdomManager.mount();
-
-  setTimeout(() => {
-    vdomManager.setState({ message: "Hello after 2 seconds!" });
-  }, 2000);
-
-  setTimeout(() => {
-    vdomManager.setState({ message: "Another update after 4 seconds." });
-  }, 4000);
-
-  setTimeout(() => {
-    const manualVNode = new VNode('div', {}, [
-      "This is a manually stored virtual node.",
-      new VNode('button', {
-        onClick: () => alert("Clicked manual button!")
-      }, ['Click me'])
-    ]);
-    vdomManager.store(manualVNode);
-  }, 6000);
-};
+const app = new VDOMManager(document.getElementById('app'), renderApp, { count: 0 });
+app.mount();

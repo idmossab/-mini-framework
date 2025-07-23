@@ -29,6 +29,7 @@ class VNode {
     render() {
         const el = document.createElement(this.tag);
         for (const [key, value] of Object.entries(this.attrs)) {
+            if (key === 'key') continue; // Skip key attribute
             if (key.startsWith('on') && typeof value === 'function') {
                 el.addEventListener(key.slice(2).toLowerCase(), value);
             } else {
